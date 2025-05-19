@@ -1,8 +1,9 @@
 const clientId = 'ErBjJv1zS2M4hfhCbfG0mA';
+const clientSecret = 'DahhShRi8efKASg7dkU-P5im0KgOgA';
 const redirectUrl = 'http://192.168.1.79:5173/';
 
 const authorizationEndpoint = 'https://www.reddit.com/api/v1/authorize';
-const tokenEndpoint = 'https://www.reddit.com/api/v1/access_token';
+const tokenEndpoint = '/api/v1/access_token';
 const scope = 'mysubreddits'; //fill in when you know what you need access too
 
   // Data structure that manages the current active token, caching it in localStorage
@@ -101,13 +102,15 @@ function isTokenExpired() {
 }
 // Refreshes the Token
 async function refreshToken() {
+  const basicAuth = btoa(`${clientId}:${clientSecret}`);
   const response = await fetch(tokenEndpoint, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${basicAuth}`,
     },
     body: new URLSearchParams({
-      client_id: clientId,
+      //client_id: clientId,
       grant_type: 'refresh_token',
       refresh_token: currentToken.refresh_token
     }),
@@ -129,18 +132,20 @@ function setupTokenRefresh() {
 
 // Reddit API Calls
 async function getToken(code) {
-  const code_verifier = localStorage.getItem('code_verifier');
+  //const code_verifier = localStorage.getItem('code_verifier');
+  const basicAuth = btoa(`${clientId}:${clientSecret}`);
   const response = await fetch(tokenEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${basicAuth}`,
     },
     body: new URLSearchParams({
-      client_id: clientId,
+      //client_id: clientId,
       grant_type: 'authorization_code',
       code: code,
       redirect_uri: redirectUrl,
-      code_verifier: code_verifier,
+      //code_verifier: code_verifier,
     }),
   });
 
@@ -166,4 +171,4 @@ async function logoutClick() {
   localStorage.clear();
 }
 
-  export { loginWithRedditClick, redirectToRedditAuthorize };
+  export { loginWithRedditClick, redirectToRedditAuthorize, handleRedirect, currentToken, setupTokenRefresh };

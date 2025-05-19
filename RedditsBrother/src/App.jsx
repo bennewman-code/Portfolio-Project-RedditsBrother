@@ -1,10 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { loginWithRedditClick } from './authorisation'
+
+import { loginWithRedditClick, handleRedirect, currentToken, setupTokenRefresh } from './authorisation'
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const checkToken = async () => {
+      await handleRedirect();
+      if (currentToken.access_token) {
+        setIsLoggedIn(true);
+        setupTokenRefresh();
+      }
+    };
+    checkToken();
+  }, []);
   const login = () => {
     loginWithRedditClick();
   }
