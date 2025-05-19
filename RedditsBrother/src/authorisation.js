@@ -148,7 +148,6 @@ async function getToken(code) {
       //code_verifier: code_verifier,
     }),
   });
-
   return await response.json();
 }
 
