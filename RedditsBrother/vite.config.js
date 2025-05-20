@@ -11,6 +11,11 @@ export default defineConfig({
         target: 'https://www.reddit.com',
         changeOrigin: true,
         secure: true,
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.setHeader('User-Agent', 'MyRedditApp/0.1 by YourUsername');
+          });
+        },
       },
     },
   },

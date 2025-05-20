@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-import { loginWithRedditClick, handleRedirect, currentToken, setupTokenRefresh } from './authorisation'
+import { loginWithRedditClick, handleRedirect, currentToken, setupTokenRefresh, subReddits } from './authorisation'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +20,7 @@ function App() {
   const login = () => {
     loginWithRedditClick();
   }
+  subReddits();
 
   return (
     <>

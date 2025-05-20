@@ -4,7 +4,7 @@ const redirectUrl = 'http://192.168.1.79:5173/';
 
 const authorizationEndpoint = 'https://www.reddit.com/api/v1/authorize';
 const tokenEndpoint = '/api/v1/access_token';
-const scope = 'mysubreddits'; //fill in when you know what you need access too
+const scope = 'mysubreddits read'; //fill in when you know what you need access too
 
   // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
@@ -151,7 +151,18 @@ async function getToken(code) {
   return await response.json();
 }
 
-
+async function subReddits() {
+  const url = '/api/subreddits/new';
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  if (response.ok) {
+    return await response.json();
+  } else {
+    console.error('Search request failed:', response.statusText);
+  }
+}
 
 
 
@@ -170,4 +181,4 @@ async function logoutClick() {
   localStorage.clear();
 }
 
-  export { loginWithRedditClick, redirectToRedditAuthorize, handleRedirect, currentToken, setupTokenRefresh };
+  export { loginWithRedditClick, redirectToRedditAuthorize, handleRedirect, currentToken, setupTokenRefresh, subReddits };
