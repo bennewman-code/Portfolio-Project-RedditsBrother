@@ -1,5 +1,5 @@
-const clientId = 'ErBjJv1zS2M4hfhCbfG0mA';
-const clientSecret = 'DahhShRi8efKASg7dkU-P5im0KgOgA';
+const clientId = 'ClientId';
+const clientSecret = 'clientSecret';
 const redirectUrl = 'http://192.168.1.79:5173/';
 
 const authorizationEndpoint = 'https://www.reddit.com/api/v1/authorize';
